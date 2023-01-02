@@ -59,17 +59,25 @@ TARGET_NO_SENSOR_PERMISSION_CHECK := true
 # Radio
 BOARD_RIL_CLASS := ../../../$(DEVICE_PATH)/ril
 
-# Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.samsungexynos7580
-
 # Radio
 SIM_COUNT := 2
 BOARD_MODEM_TYPE := tss310
 TARGET_GLOBAL_CFLAGS += -DANDROID_MULTI_SIM
 TARGET_GLOBAL_CPPFLAGS += -DANDROID_MULTI_SIM
 
+RECOVERY_VARIANT := carliv
+
+ifneq ($(RECOVERY_VARIANT),twrp)
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/twrp.fstab
+endif
+
+ifeq ($(RECOVERY_VARIANT),carliv)
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_10x18.h\"
+DEVICE_RESOLUTION := 720x1280
+endif
+
 # TWRP
-RECOVERY_VARIANT := twrp
+ifeq ($(RECOVERY_VARIANT),twrp)
 TW_THEME := portrait_hdpi
 TW_BRIGHTNESS_PATH := "/sys/devices/14800000.dsim/backlight/panel/brightness"
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"
@@ -80,5 +88,6 @@ TW_HAS_DOWNLOAD_MODE := true
 TW_EXCLUDE_NANO := true
 TW_EXCLUDE_BASH := true
 RECOVERY_SDCARD_ON_DATA := true
+endif
 # inherit from the proprietary version
 -include vendor/samsung/a3xe3gxx/BoardConfigVendor.mk
