@@ -1,0 +1,70 @@
+name: Carliv Touch Recovery CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: TWRP Build CI
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+
+    env:
+      OEM: samsung
+      DEVICE: j1pop3g
+
+    steps:
+    - uses: actions/checkout@v3
+    
+
+    - name: Installing JDK 7 + Build Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install bc axel bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev 
+        mkdir ~/.jdk_7
+        cd ~/.jdk_7
+        axel -q -n $(nproc --all) https://download.java.net/openjdk/jdk7u75/ri/openjdk-7u75-b13-linux-x64-18_dec_2014.tar.gz
+        tar -xzf openjdk-7u75-b13-linux-x64-18_dec_2014.tar.gz
+        sudo ln -f -s /usr/bin/python2.7 /usr/bin/python
+    - name: Syncing TWRP sources
+      run: |
+        mkdir ~/TWRP
+        cd ~/TWRP
+        mkdir ~/.bin
+        curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+        python3 ~/.bin/repo init --depth=1 -u https://github.com/CyanogenMod/android -b cm-12.1
+        git clone https://github.com/unlegacy-devices/android_device_samsung_a3xeltexx -b cm-12.1 ~/TWRP/device/samsung/a3xeltexx
+        git clone https://github.com/unlegacy-devices/android_vendor_samsung_a3xeltexx -b cm-12.1 ~/TWRP/vendor/samsung/a3xeltexx
+        python3 ~/.bin/repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
+    - name: Building TWRP Recovery
+      run: |
+        OLDPATH=$PATH
+        OLDJAVAHOME=$JAVA_HOME
+        export PATH="$HOME/.jdk_7/java-se-7u75-ri/bin:$PATH"
+        export JAVA_HOME="$HOME/.jdk_7/java-se-7u75-ri"
+        cd ~/TWRP
+        rm -rf ~/TWRP/build
+        rm -rf ~/TWRP/hardware/samsung_slsi/exynos5
+        git clone https://github.com/flwhtools/carliv_touch_recovery_new -b cm-12.1 ~/TWRP/bootable/recovery-carliv
+        git clone https://github.com/unlegacy-devices/android_device_samsung_exynos7580-common -b cm-12.1 ~/TWRP/device/samsung/exynos7580-common
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos7580 -b los-14.1 ~/TWRP/hardware/samsung_slsi/exynos7580
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos5 -b los-14.1 ~/TWRP/hardware/samsung_slsi/exynos5
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b los-14.1 ~/TWRP/hardware/samsung_slsi/exynos
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_openmax -b los-14.1 ~/TWRP/hardware/samsung_slsi/openmax
+        git clone https://github.com/Exynos7580/android_kernel_samsung_exynos7580-common -b cm-14.1 ~/TWRP/kernel/samsung/a3xelte
+        git clone https://github.com/NotNoelChannel/android_build -b cm-12.1 ~/TWRP/build
+        git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/ -b android-5.1.1_r38 /opt/toolchain/aarch64-linux-android-4.9
+        source build/envsetup.sh
+        export ALLOW_MISSING_DEPENDENCIES=true
+        export LC_ALL=C
+        lunch cm_a3xeltexx-eng
+        make -j$(nproc --all) recoveryimage
+        export PATH=$OLDPATH
+        export JAVA_HOME=$OLDJAVAHOME
+    - name: Uploading TWRP builds
+      uses: actions/upload-artifact@v2
+      with:
+        name: twrp
+        path: /home/runner/TWRP/out/target/product/a3xeltexx/recovery.img
