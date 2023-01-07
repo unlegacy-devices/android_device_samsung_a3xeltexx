@@ -53,10 +53,12 @@ jobs:
         rm -rf ~/TWRP/build
         rm -rf ~/TWRP/hardware/samsung_slsi/exynos5
         git clone https://github.com/a3xelte-cyanogen/hardware_samsung_slsi-cm_exynos7580 -b lp5.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
+        git clone https://github.com/Exynos7580/android_kernel_samsung_exynos7580-common -b cm-14.1 ~/TWRP/kernel/samsung/a3xelte
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos5 -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos5
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_openmax -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
         git clone https://github.com/NotNoelChannel/android_build -b cm-12.1 ~/TWRP/build
+        git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/ -b android-5.1.1_r38 /opt/toolchain/aarch64-linux-android-4.9
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export LC_ALL=C
