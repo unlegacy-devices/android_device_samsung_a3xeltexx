@@ -52,7 +52,7 @@ jobs:
         cd ~/TWRP
         rm -rf ~/TWRP/build
         rm -rf ~/TWRP/hardware/samsung_slsi/exynos5
-        git clone https://github.com/a3xelte-cyanogen/hardware_samsung_slsi-cm_exynos7580 -b lp-5.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
+        git clone https://github.com/a3xelte-cyanogen/hardware_samsung_slsi-cm_exynos7580 -b lp5.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos5 -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos5
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
         git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_openmax -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
