@@ -54,6 +54,7 @@ jobs:
         git clone https://github.com/unlegacy-devices/android_kernel_samsung_a3xelte -b cm-testing ~/TWRP/kernel/samsung/exynos7580-common
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_openmax -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
+        git clone https://github.com/Exynos7580/android_device_samsung_exynos7580-common -b cm-14.1 ~/TWRP/device/samsung/exynos7580-common
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export LC_ALL=C
