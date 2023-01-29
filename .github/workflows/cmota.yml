@@ -39,9 +39,9 @@ jobs:
         cd ~/TWRP
         mkdir ~/.bin
         curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
-        python3 ~/.bin/repo init --depth=1 -u https://github.com/CyanogenMod/android -b cm-12.1
-        git clone https://github.com/a3xelte-cyanogen/android_device_samsung_a3xeltexx -b cm-12.1 ~/TWRP/device/samsung/a3xeltexx
-        git clone https://github.com/unlegacy-devices/android_vendor_samsung_a3xeltexx -b cm-12.1 ~/TWRP/vendor/samsung/a3xeltexx
+        python3 ~/.bin/repo init --depth=1 -u https://github.com/LineageOS/android -b cm-14.1
+        git clone https://github.com/Exynos7580/android_device_samsung_a3xeltexx -b cm-14.1 ~/TWRP/device/samsung/a3xeltexx
+        git clone https://github.com/Exynos7580/android_vendor_samsung_a3xeltexx -b cm-14.1 ~/TWRP/vendor/samsung/a3xeltexx
         python3 ~/.bin/repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
     - name: Building CyanogenMod
       run: |
@@ -51,23 +51,19 @@ jobs:
         export JAVA_HOME="$HOME/.jdk_7/java-se-7u75-ri"
         cd ~/TWRP
         rm -rf ~/TWRP/build
-        rm -rf ~/TWRP/hardware/samsung_slsi/exynos5
-        git clone https://github.com/a3xelte-cyanogen/hardware_samsung_slsi-cm_exynos7580 -b lp5.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
-        git clone https://github.com/Exynos7580/android_kernel_samsung_exynos7580-common -b cm-14.1 ~/TWRP/kernel/samsung/a3xelte
-        git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos5 -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos5
-        git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_exynos -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
-        git clone https://github.com/CyanogenMod/android_hardware_samsung_slsi_openmax -b cm-12.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
-        git clone https://github.com/NotNoelChannel/android_build -b cm-12.1 ~/TWRP/build
-        git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/ -b android-5.1.1_r38 /opt/toolchain/aarch64-linux-android-4.9
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos7580 -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
+        git clone https://github.com/unlegacy-devices/android_kernel_samsung_a3xelte -b cm-testing ~/TWRP/kernel/samsung/a3xelte
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b cm-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
+        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_openmax -b cm-14.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         export LC_ALL=C
-        lunch cm_a3xeltexx-eng
-        make -j$(nproc --all) otapackage
+        lunch lineage_a3xeltexx-eng
+        make -j$(nproc --all) bootimage
         export PATH=$OLDPATH
         export JAVA_HOME=$OLDJAVAHOME
     - name: Uploading CyanogenMod builds
       uses: actions/upload-artifact@v2
       with:
         name: twrp
-        path: /home/runner/TWRP/out/target/product/a3xeltexx/*.zip
+        path: /home/runner/TWRP/out/target/product/a3xeltexx/boot.img
