@@ -55,7 +55,6 @@ jobs:
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_openmax -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/openmax
         git clone https://github.com/Exynos7580/android_device_samsung_exynos7580-common -b cm-14.1 ~/TWRP/device/samsung/exynos7580-common
-        git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos5 -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos5
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos7580 -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
         source build/envsetup.sh
