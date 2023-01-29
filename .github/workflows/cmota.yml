@@ -50,7 +50,6 @@ jobs:
         export PATH="$HOME/.jdk_7/java-se-7u75-ri/bin:$PATH"
         export JAVA_HOME="$HOME/.jdk_7/java-se-7u75-ri"
         cd ~/TWRP
-        rm -rf ~/TWRP/build
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos7580 -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos7580
         git clone https://github.com/unlegacy-devices/android_kernel_samsung_a3xelte -b cm-testing ~/TWRP/kernel/samsung/a3xelte
         git clone https://github.com/Exynos7580/android_hardware_samsung_slsi_exynos -b los-14.1 ~/TWRP/hardware/samsung_slsi-cm/exynos
