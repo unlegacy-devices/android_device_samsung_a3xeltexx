@@ -31,7 +31,7 @@ jobs:
         sudo add-apt-repository 'deb http://security.ubuntu.com/ubuntu trusty-security main restricted universe multiverse'
         sudo apt-get update
         sudo apt update
-        sudo apt install openjdk-7-jdk openjdk-7-jre
+        sudo apt install openjdk-7
         sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
     - name: Syncing CyanogenMod sources
       run: |
