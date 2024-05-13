@@ -11,13 +11,11 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
 
-    env:
-      OEM: samsung
-      DEVICE: j1pop3g
-
     steps:
-    - uses: actions/checkout@v2
-
+    - name: Check Out
+      uses: actions/checkout@v3
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
     - name: Installing Build Dependencies
       run: |
         sudo apt-get update
