@@ -17,6 +17,8 @@
 # Inherit from Exynos7580-common
 include device/samsung/exynos7580-common/BoardConfigCommon.mk
 
+TARGET_SLSI_VARIANT := cm
+
 TARGET_OTA_ASSERT_DEVICE := a3xe3g,a3xe3gxx,a3xelte,a3xeltexx
 
 DEVICE_PATH := device/samsung/a3xeltexx
